@@ -29,6 +29,9 @@
 u32 total_exits = 0;
 EXPORT_SYMBOL(total_exits);
 
+u64 total_proc_cycles = 0;
+EXPORT_SYMBOL(total_proc_cycles);
+
 /*
  * Unlike "struct cpuinfo_x86.x86_capability", kvm_cpu_caps doesn't need to be
  * aligned to sizeof(unsigned long) because it's not accessed via bitops.
@@ -1508,8 +1511,20 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 
 	if (eax == 0x4ffffffc) {
 		eax = total_exits;
-		printk(KERN_INFO "0x4ffffffc Total exits = %d", total_exits);
-	} else {
+		printk(KERN_INFO "0x4ffffffc Total exits = %d\n", total_exits);
+	}
+	else if (eax == 0x4ffffffd) {
+		printk(KERN_INFO "0x4ffffffd Total time in vmm = %llu\n", total_proc_cycles);
+
+		/*
+		 * Split total cycles as lower and higher 32-bit registers
+		 */
+		ebx = (total_proc_cycles >> 32);
+		ecx = (total_proc_cycles & 0xffffffff);
+		edx = 0;
+	} 
+	
+	else {
 		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	}
 	kvm_rax_write(vcpu, eax);

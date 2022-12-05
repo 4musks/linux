@@ -80,7 +80,7 @@ jay@jay-ubuntu:~/linux/linux$
 
 Video instructions should help you build code for leaf node **_0x4FFFFFFC_**
 
-After code changes, we can just run `"make -j 16 module_install"` and skip `"make install"`
+After code changes, we can just run `"make modules && make -j 16 modules_install"` and skip `"make install"`
 
 ## Verify if kvm module is loaded
 
@@ -97,9 +97,8 @@ kvm                  1134592  1 kvm_intel
 Remove **KVM**.
 
 ```bash
-jay@jay-ubuntu:~/linux/linux$ lsmod | grep kvm
-kvm_intel             421888  0
-kvm                  1134592  1 kvm_intel
+jay@jay-ubuntu:~/linux/linux$ sudo rmmod  kvm_intel
+jay@jay-ubuntu:~/linux/linux$ sudo rmmod  kvm
 ```
 
 Load **KVM**.
@@ -116,15 +115,15 @@ kvm                  1134592  1 kvm_intel
 
 The new Kernel you have built is the **VMM**.
 
-And we have enabled nested virtualization on the HOST.
+And we have enabled nested virtualization on the HOST system.
 
 Taking advantage of that, you can now create a new VM (say nestedvm) on this VMM.
 
-You can use ubuntu or a smaller sizes ISO of debian distro. **antiX Linux** is a good choice.
+You can use ubuntu or a smaller sized ISO of debian distro. **antiX Linux** is a good choice.
 
 ![NestedVM_creation](resources/6.NestedVM_creation.png)
 
-## Log into the VM and test the initial leaf node `%eax=0x4FFFFFFC`
+## Log into nested VM and test the first leaf node `eax=0x4FFFFFFC` using **cpuid** tool
 
 Update packages using `apt update`
 
@@ -142,12 +141,38 @@ $ echo $((16#<value of %eax>))
 
 ![7.Test_leafNode_1](resources/7.Test_leafNode_1.png)
 
-## Initial commit
+## Leaf Node 0x4FFFFFFD
 
-Commit & push changes to GitHub
+vmx.c: Use function **rdtsc()** in the boundaries of `vmx_handle_exit` to compute cpu cycles. See ref: RDTSC
 
--------WIP:
-Leafnode 2,3 & 4
+cpuid.c: Using bitwise _AND_ and _RIGHT SHIFT_ operators, compounded cpu cycles variable can be separated into 32 low and high bits registers. See ref: BITWISE OPERATORS
+
+## Re-build and install modules
+
+```bash
+make -j 16 modules
+make -j 16 INSTALL_MOD_STRIP=1 modules_install
+```
+
+## Re-load KVM modules
+
+Stop nested VM, re-load KVM modules
+
+```bash
+jay@jay-ubuntu:~/linux/linux$ sudo rmmod  kvm_intel
+jay@jay-ubuntu:~/linux/linux$ sudo rmmod  kvm
+jay@jay-ubuntu:~/linux/linux$ sudo modprobe kvm
+jay@jay-ubuntu:~/linux/linux$ sudo modprobe kvm_intel
+jay@jay-ubuntu:~/linux/linux$ lsmod | grep kvm
+kvm_intel             421888  0
+kvm                  1134592  1 kvm_intel
+```
+
+## Log into nested VM and test the second leaf node `eax=0x4FFFFFFD` using **cpuid** tool
+
+Compare the output with dmesg value on VMM.
+
+![Test_leafNode_2](resources/8.Test_leafNode_2.png)
 
 ## Unlicense
 
@@ -159,3 +184,7 @@ Leafnode 2,3 & 4
 - [Disable Side Channel Mitigation in VMware Workstation (windowsloop.com)](https://windowsloop.com/disable-side-channel-mitigation-in-vmware/#:~:text=1%20First%2C%20open%20the%20VMware%20application.%20You%20can,re-open%20VMware%20Workstation%20to%20fully%20apply%20the%20changes.)
 - [Ostechnix.com How-to-enable-nested-virtualization-in-kvm-in-linux](https://ostechnix.com/how-to-enable-nested-virtualization-in-kvm-in-linux/)
 - [Create VM using VMM on Ubuntu](https://www.server-world.info/en/note?os=Ubuntu_22.04&p=kvm&f=3)
+
+- [RDTSC](https://www.felixcloutier.com/x86/rdtsc)
+
+- [BITWISE OPERATORS](https://www.programiz.com/c-programming/bitwise-operators)
