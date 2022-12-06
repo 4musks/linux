@@ -174,6 +174,22 @@ Compare the output with dmesg value on VMM.
 
 ![Test_leafNode_2](resources/8.Test_leafNode_2.png)
 
+## Q&A
+
+Does the number of exits increase at a stable rate?
+
+- No. Entirely dependent on the instruction being called and when
+
+Are there more exits performed during certain VM operations?
+
+- Yes. During VM boot procedure.
+
+Approximately how many exits does a full VM boot entail?
+
+- Varies for each VM and distro types. In my setup, I have computed it as **3895807**.
+
+![QandA](resources/9.q_and_a.png)
+
 ## Unlicense
 
 [![License: Unlicense](https://camo.githubusercontent.com/a0f44681d578ce545f4614325d26eac4036b273d21a61de5293af355cb969bac/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d556e6c6963656e73652d626c75652e737667)](http://unlicense.org/)
