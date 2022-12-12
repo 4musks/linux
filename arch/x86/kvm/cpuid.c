@@ -39,6 +39,12 @@ u64 count_eachexit_proc_cycles[70];
 EXPORT_SYMBOL(count_eachexit_proc_cycles);
 
 /*
+ * Exit reasons not enabled in KVM. 
+ * if %ecx has one of these 17 values, set all 4 registers to 0.
+ */
+u32 not_handled_in_kvm[] = {3,4,5,6,11,16,17,33,34,51,63,64,65,66,67,68,69};
+
+/*
  * Unlike "struct cpuinfo_x86.x86_capability", kvm_cpu_caps doesn't need to be
  * aligned to sizeof(unsigned long) because it's not accessed via bitops.
  */
@@ -1505,6 +1511,19 @@ bool kvm_cpuid(struct kvm_vcpu *vcpu, u32 *eax, u32 *ebx,
 }
 EXPORT_SYMBOL_GPL(kvm_cpuid);
 
+bool is_handled_in_kvm(u32 ecx)
+{
+	int i;
+	bool is_handled = true;
+	for (i = 0; i < 17; i++) {
+        if (not_handled_in_kvm[i] == ecx) {
+            is_handled = false;
+            break;
+        }
+    }
+	return is_handled;
+}
+
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
@@ -1546,7 +1565,7 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 			ecx == 35 || 
 			ecx == 38 || 
 			ecx == 42 ) {			
-			printk(KERN_INFO "0x4ffffffe/f ecx contains an exit_type(%u) not defined in SDM\n", ecx);
+			printk(KERN_INFO "0x%x: ecx contains an exit_type(%u) not defined in SDM\n", eax, ecx);
 			eax = 0;
 			ebx = 0;
 			ecx = 0;
@@ -1554,10 +1573,12 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 		}
 		/*
 		 * If %ecx (on input) contains a value not enabled in KVM,
-		 * return 0s in all four registers.
+		 * return 0 in all four registers.
+		 * check fn is_handled_in_kvm()
 		 */
-		else if (count_each_exit_reason[ecx] < 0 ) {			
-			printk(KERN_INFO "0x4ffffffe/f ecx contains an exit_type(%u) not enabled by KVM\n", ecx);
+		else if (count_each_exit_reason[ecx] < 0 ||
+				 !is_handled_in_kvm(ecx) ) {			
+			printk(KERN_INFO "0x%x: ecx contains an exit_type(%u) not enabled by KVM\n", eax, ecx);
 			eax = 0;
 			ebx = 0;
 			ecx = 0;
@@ -1573,7 +1594,7 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 			}
 			else if (eax == 0x4fffffff){
 				eachexit_proc_cycles = count_eachexit_proc_cycles[ecx];
-				printk(KERN_INFO "0x4ffffffe, Exit number %u. Total processor cycles=%llu\n", 
+				printk(KERN_INFO "0x4fffffff, Exit number %u. Total processor cycles=%llu\n", 
 						ecx, eachexit_proc_cycles);
 						/*
 						 * Split total cycles as lower and higher 32-bit registers
