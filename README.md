@@ -174,6 +174,36 @@ Compare the output with dmesg value on VMM.
 
 ![Test_leafNode_2](resources/8.Test_leafNode_2.png)
 
+## **Assignment 3: Leafnode eax=0x4FFFFFFE & eax=0x4FFFFFFF**
+
+For Assignment 3, cpuid.c and vmx.c has the necessary code blocks with in-line comments.
+
+## Log into nested VM and test the third leaf node `eax=0x4FFFFFFE` using program
+
+**_test3.c_** [ph_source]
+
+```bash
+> gcc test3.c -o test3
+> ./test3
+```
+
+Verify dmesg output on VMM.
+
+![Leaf Node 0x4FFFFFFE](resources/dmesg_leafNode_ffffffe.txt)
+
+## Log into nested VM and test the final leaf node `eax=0x4FFFFFFF` using program
+
+**_test4.c_** [ph_source]
+
+```bash
+> gcc test4.c -o test4
+> ./test4
+```
+
+Verify dmesg output on VMM.
+
+![Leaf Node 0x4FFFFFFF](resources/dmesg_leafNode_fffffff.txt)
+
 ## Q&A
 
 Does the number of exits increase at a stable rate?
@@ -189,6 +219,26 @@ Approximately how many exits does a full VM boot entail?
 - Varies for each VM and distro types. In my setup, I have computed it as **3895807**.
 
 ![QandA](resources/9.q_and_a.png)
+
+**Assignment 3**
+- Of the exit types defined in the SDM, which are:
+  - Most frequent
+  
+    [ 2850.258822] 0x4ffffffe, Exit number 48. Total exits=**701051**
+
+    48: **EPT violation**. An attempt to access memory with a guest-physical address was disallowed by the configuration of
+the EPT paging structures.
+  - Least 
+  
+    There are several basic exit reason(s) whose Total exits is **0**. Second least exit reason is **2**
+
+    [ 2850.258436] 0x4ffffffe, Exit number 29. Total exits=**2**
+
+    2: **Triple fault**. The logical processor encountered an exception while attempting to call the double-fault handler and
+that exception did not itself cause a VM exit due to the exception bitmap.
+
+    
+    
 
 ## Unlicense
 

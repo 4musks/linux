@@ -1,0 +1,70 @@
+[ 2894.131764] 0x4fffffff, Exit number 0. Total processor cycles=60354464723
+[ 2894.131924] 0x4fffffff, Exit number 1. Total processor cycles=28602603
+[ 2894.131948] 0x4fffffff, Exit number 2. Total processor cycles=0
+[ 2894.131967] 0x4fffffff: ecx contains an exit_type(3) not enabled by KVM
+[ 2894.131987] 0x4fffffff: ecx contains an exit_type(4) not enabled by KVM
+[ 2894.132005] 0x4fffffff: ecx contains an exit_type(5) not enabled by KVM
+[ 2894.132023] 0x4fffffff: ecx contains an exit_type(6) not enabled by KVM
+[ 2894.132041] 0x4fffffff, Exit number 7. Total processor cycles=101381673
+[ 2894.132060] 0x4fffffff, Exit number 8. Total processor cycles=0
+[ 2894.132078] 0x4fffffff, Exit number 9. Total processor cycles=0
+[ 2894.132096] 0x4fffffff, Exit number 10. Total processor cycles=197316370
+[ 2894.132115] 0x4fffffff: ecx contains an exit_type(11) not enabled by KVM
+[ 2894.132254] 0x4fffffff, Exit number 12. Total processor cycles=77896541
+[ 2894.132419] 0x4fffffff, Exit number 13. Total processor cycles=0
+[ 2894.132445] 0x4fffffff, Exit number 14. Total processor cycles=0
+[ 2894.132463] 0x4fffffff, Exit number 15. Total processor cycles=0
+[ 2894.132482] 0x4fffffff: ecx contains an exit_type(16) not enabled by KVM
+[ 2894.132500] 0x4fffffff: ecx contains an exit_type(17) not enabled by KVM
+[ 2894.132518] 0x4fffffff, Exit number 18. Total processor cycles=345738
+[ 2894.132537] 0x4fffffff, Exit number 19. Total processor cycles=0
+[ 2894.132556] 0x4fffffff, Exit number 20. Total processor cycles=0
+[ 2894.132574] 0x4fffffff, Exit number 21. Total processor cycles=0
+[ 2894.132592] 0x4fffffff, Exit number 22. Total processor cycles=0
+[ 2894.132610] 0x4fffffff, Exit number 23. Total processor cycles=0
+[ 2894.132628] 0x4fffffff, Exit number 24. Total processor cycles=0
+[ 2894.132647] 0x4fffffff, Exit number 25. Total processor cycles=0
+[ 2894.132665] 0x4fffffff, Exit number 26. Total processor cycles=0
+[ 2894.132683] 0x4fffffff, Exit number 27. Total processor cycles=0
+[ 2894.132701] 0x4fffffff, Exit number 28. Total processor cycles=1383871821
+[ 2894.132720] 0x4fffffff, Exit number 29. Total processor cycles=135679
+[ 2894.132739] 0x4fffffff, Exit number 30. Total processor cycles=705689775
+[ 2894.132757] 0x4fffffff, Exit number 31. Total processor cycles=5853388
+[ 2894.132776] 0x4fffffff, Exit number 32. Total processor cycles=1147390847
+[ 2894.132795] 0x4fffffff: ecx contains an exit_type(33) not enabled by KVM
+[ 2894.132813] 0x4fffffff: ecx contains an exit_type(34) not enabled by KVM
+[ 2894.132832] 0x4fffffff: ecx contains an exit_type(35) not defined in SDM
+[ 2894.132850] 0x4fffffff, Exit number 36. Total processor cycles=0
+[ 2894.132869] 0x4fffffff, Exit number 37. Total processor cycles=0
+[ 2894.132887] 0x4fffffff: ecx contains an exit_type(38) not defined in SDM
+[ 2894.132905] 0x4fffffff, Exit number 39. Total processor cycles=0
+[ 2894.132923] 0x4fffffff, Exit number 40. Total processor cycles=22945416
+[ 2894.132942] 0x4fffffff, Exit number 41. Total processor cycles=0
+[ 2894.132960] 0x4fffffff: ecx contains an exit_type(42) not defined in SDM
+[ 2894.132978] 0x4fffffff, Exit number 43. Total processor cycles=0
+[ 2894.132996] 0x4fffffff, Exit number 44. Total processor cycles=0
+[ 2894.133014] 0x4fffffff, Exit number 45. Total processor cycles=0
+[ 2894.133032] 0x4fffffff, Exit number 46. Total processor cycles=0
+[ 2894.133051] 0x4fffffff, Exit number 47. Total processor cycles=0
+[ 2894.133069] 0x4fffffff, Exit number 48. Total processor cycles=49741118236
+[ 2894.133088] 0x4fffffff, Exit number 49. Total processor cycles=935708289
+[ 2894.133107] 0x4fffffff, Exit number 50. Total processor cycles=0
+[ 2894.133125] 0x4fffffff: ecx contains an exit_type(51) not enabled by KVM
+[ 2894.133143] 0x4fffffff, Exit number 52. Total processor cycles=0
+[ 2894.133161] 0x4fffffff, Exit number 53. Total processor cycles=0
+[ 2894.133179] 0x4fffffff, Exit number 54. Total processor cycles=28794
+[ 2894.133197] 0x4fffffff, Exit number 55. Total processor cycles=82841
+[ 2894.133215] 0x4fffffff, Exit number 56. Total processor cycles=0
+[ 2894.133233] 0x4fffffff, Exit number 57. Total processor cycles=0
+[ 2894.133251] 0x4fffffff, Exit number 58. Total processor cycles=0
+[ 2894.133269] 0x4fffffff, Exit number 59. Total processor cycles=0
+[ 2894.133287] 0x4fffffff, Exit number 60. Total processor cycles=0
+[ 2894.133305] 0x4fffffff, Exit number 61. Total processor cycles=0
+[ 2894.133323] 0x4fffffff, Exit number 62. Total processor cycles=0
+[ 2894.133341] 0x4fffffff: ecx contains an exit_type(63) not enabled by KVM
+[ 2894.133359] 0x4fffffff: ecx contains an exit_type(64) not enabled by KVM
+[ 2894.133377] 0x4fffffff: ecx contains an exit_type(65) not enabled by KVM
+[ 2894.133395] 0x4fffffff: ecx contains an exit_type(66) not enabled by KVM
+[ 2894.133414] 0x4fffffff: ecx contains an exit_type(67) not enabled by KVM
+[ 2894.133432] 0x4fffffff: ecx contains an exit_type(68) not enabled by KVM
+[ 2894.133450] 0x4fffffff: ecx contains an exit_type(69) not enabled by KVM

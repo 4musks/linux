@@ -1,0 +1,70 @@
+[ 2850.257831] 0x4ffffffe, Exit number 0. Total exits=27399
+[ 2850.257866] 0x4ffffffe, Exit number 1. Total exits=60554
+[ 2850.257888] 0x4ffffffe, Exit number 2. Total exits=0
+[ 2850.257900] 0x4ffffffe: ecx contains an exit_type(3) not enabled by KVM
+[ 2850.257921] 0x4ffffffe: ecx contains an exit_type(4) not enabled by KVM
+[ 2850.257942] 0x4ffffffe: ecx contains an exit_type(5) not enabled by KVM
+[ 2850.257963] 0x4ffffffe: ecx contains an exit_type(6) not enabled by KVM
+[ 2850.257984] 0x4ffffffe, Exit number 7. Total exits=14878
+[ 2850.258005] 0x4ffffffe, Exit number 8. Total exits=0
+[ 2850.258026] 0x4ffffffe, Exit number 9. Total exits=0
+[ 2850.258046] 0x4ffffffe, Exit number 10. Total exits=104368
+[ 2850.258072] 0x4ffffffe: ecx contains an exit_type(11) not enabled by KVM
+[ 2850.258093] 0x4ffffffe, Exit number 12. Total exits=25009
+[ 2850.258114] 0x4ffffffe, Exit number 13. Total exits=0
+[ 2850.258134] 0x4ffffffe, Exit number 14. Total exits=0
+[ 2850.258154] 0x4ffffffe, Exit number 15. Total exits=0
+[ 2850.258174] 0x4ffffffe: ecx contains an exit_type(16) not enabled by KVM
+[ 2850.258195] 0x4ffffffe: ecx contains an exit_type(17) not enabled by KVM
+[ 2850.258215] 0x4ffffffe, Exit number 18. Total exits=7
+[ 2850.258235] 0x4ffffffe, Exit number 19. Total exits=0
+[ 2850.258255] 0x4ffffffe, Exit number 20. Total exits=0
+[ 2850.258275] 0x4ffffffe, Exit number 21. Total exits=0
+[ 2850.258295] 0x4ffffffe, Exit number 22. Total exits=0
+[ 2850.258315] 0x4ffffffe, Exit number 23. Total exits=0
+[ 2850.258336] 0x4ffffffe, Exit number 24. Total exits=0
+[ 2850.258356] 0x4ffffffe, Exit number 25. Total exits=0
+[ 2850.258376] 0x4ffffffe, Exit number 26. Total exits=0
+[ 2850.258396] 0x4ffffffe, Exit number 27. Total exits=0
+[ 2850.258416] 0x4ffffffe, Exit number 28. Total exits=107108
+[ 2850.258436] 0x4ffffffe, Exit number 29. Total exits=2
+[ 2850.258456] 0x4ffffffe, Exit number 30. Total exits=167017
+[ 2850.258477] 0x4ffffffe, Exit number 31. Total exits=729
+[ 2850.258497] 0x4ffffffe, Exit number 32. Total exits=76189
+[ 2850.258517] 0x4ffffffe: ecx contains an exit_type(33) not enabled by KVM
+[ 2850.258537] 0x4ffffffe: ecx contains an exit_type(34) not enabled by KVM
+[ 2850.258558] 0x4ffffffe: ecx contains an exit_type(35) not defined in SDM
+[ 2850.258578] 0x4ffffffe, Exit number 36. Total exits=0
+[ 2850.258599] 0x4ffffffe, Exit number 37. Total exits=0
+[ 2850.258619] 0x4ffffffe: ecx contains an exit_type(38) not defined in SDM
+[ 2850.258639] 0x4ffffffe, Exit number 39. Total exits=0
+[ 2850.258659] 0x4ffffffe, Exit number 40. Total exits=3514
+[ 2850.258680] 0x4ffffffe, Exit number 41. Total exits=0
+[ 2850.258700] 0x4ffffffe: ecx contains an exit_type(42) not defined in SDM
+[ 2850.258721] 0x4ffffffe, Exit number 43. Total exits=0
+[ 2850.258741] 0x4ffffffe, Exit number 44. Total exits=0
+[ 2850.258761] 0x4ffffffe, Exit number 45. Total exits=0
+[ 2850.258782] 0x4ffffffe, Exit number 46. Total exits=0
+[ 2850.258802] 0x4ffffffe, Exit number 47. Total exits=0
+[ 2850.258822] 0x4ffffffe, Exit number 48. Total exits=701051
+[ 2850.258843] 0x4ffffffe, Exit number 49. Total exits=30591
+[ 2850.258863] 0x4ffffffe, Exit number 50. Total exits=0
+[ 2850.258882] 0x4ffffffe: ecx contains an exit_type(51) not enabled by KVM
+[ 2850.258890] 0x4ffffffe, Exit number 52. Total exits=0
+[ 2850.258899] 0x4ffffffe, Exit number 53. Total exits=0
+[ 2850.258908] 0x4ffffffe, Exit number 54. Total exits=9
+[ 2850.258926] 0x4ffffffe, Exit number 55. Total exits=3
+[ 2850.258946] 0x4ffffffe, Exit number 56. Total exits=0
+[ 2850.258966] 0x4ffffffe, Exit number 57. Total exits=0
+[ 2850.258986] 0x4ffffffe, Exit number 58. Total exits=0
+[ 2850.259006] 0x4ffffffe, Exit number 59. Total exits=0
+[ 2850.259060] 0x4ffffffe, Exit number 60. Total exits=0
+[ 2850.259224] 0x4ffffffe, Exit number 61. Total exits=0
+[ 2850.259249] 0x4ffffffe, Exit number 62. Total exits=0
+[ 2850.259270] 0x4ffffffe: ecx contains an exit_type(63) not enabled by KVM
+[ 2850.259293] 0x4ffffffe: ecx contains an exit_type(64) not enabled by KVM
+[ 2850.259313] 0x4ffffffe: ecx contains an exit_type(65) not enabled by KVM
+[ 2850.259334] 0x4ffffffe: ecx contains an exit_type(66) not enabled by KVM
+[ 2850.259354] 0x4ffffffe: ecx contains an exit_type(67) not enabled by KVM
+[ 2850.259375] 0x4ffffffe: ecx contains an exit_type(68) not enabled by KVM
+[ 2850.259395] 0x4ffffffe: ecx contains an exit_type(69) not enabled by KVM
