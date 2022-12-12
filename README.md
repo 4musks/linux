@@ -14,6 +14,7 @@ Here are the steps detailed to execute Assignment-2 on Ubuntu VM hosted on VMWar
 - Windows 11 Professional
 - VMware® Workstation 16 Pro [Trial/Download](https://www.vmware.com/products/workstation-pro.html)
 - Ubuntu 22 [Download](https://releases.ubuntu.com/22.10/ubuntu-22.10-live-server-amd64.iso?_ga=2.70008919.652567418.1667472597-1208328021.1667382980)
+- Antix Linux [Download](https://antixlinux.com/download/)
 - Intel® 64 and IA-32 Architectures Software Developer Manuals (SDM) - [Download](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
   - For this assignment, SDM release version **_April 2022_** is referred.
 
@@ -178,31 +179,38 @@ Compare the output with dmesg value on VMM.
 
 For Assignment 3, cpuid.c and vmx.c has the necessary code blocks with in-line comments.
 
+Among VMX BASIC EXIT REASONS 0-69:
+
+- Not defined in Intel SDM version April 2022 are: 35,38,42
+- Not handled in KVM are: 3,4,5,6,11,16,17,33,34,51,63,64,65,66,67,68,69
+
 ## Log into nested VM and test the third leaf node `eax=0x4FFFFFFE` using program
 
-**_test3.c_** [ph_source]
+![test3.c](resources/test3.c)
 
 ```bash
 > gcc test3.c -o test3
 > ./test3
 ```
 
-Verify dmesg output on VMM.
+Compare output with dmesg output on VMM.
 
 ![Leaf Node 0x4FFFFFFE](resources/dmesg_leafNode_ffffffe.txt)
 
 ## Log into nested VM and test the final leaf node `eax=0x4FFFFFFF` using program
 
-**_test4.c_** [ph_source]
+![test4.c](resources/test4.c)
 
 ```bash
 > gcc test4.c -o test4
 > ./test4
 ```
 
-Verify dmesg output on VMM.
+Compare output with dmesg output on VMM.
 
 ![Leaf Node 0x4FFFFFFF](resources/dmesg_leafNode_fffffff.txt)
+
+![Test_leafNode_3_4](resources/10.Test_leafNode_3_4.png)
 
 ## Q&A
 
@@ -221,24 +229,43 @@ Approximately how many exits does a full VM boot entail?
 ![QandA](resources/9.q_and_a.png)
 
 **Assignment 3**
+
 - Of the exit types defined in the SDM, which are:
   - Most frequent
   
-    [ 2850.258822] 0x4ffffffe, Exit number 48. Total exits=**701051**
+    [ 2850.258822] 0x4ffffffe, Exit number **48**. Total exits=**701051**
 
-    48: **EPT violation**. An attempt to access memory with a guest-physical address was disallowed by the configuration of
+    **48: EPT violation**. An attempt to access memory with a guest-physical address was disallowed by the configuration of
 the EPT paging structures.
-  - Least 
+  - Least frequent
   
-    There are several basic exit reason(s) whose Total exits is **0**. Second least exit reason is **2**
+    There are several basic exit reason(s) whose Total exits is **0**. Second least exit reason is **29**
 
-    [ 2850.258436] 0x4ffffffe, Exit number 29. Total exits=**2**
+    [ 2850.258436] 0x4ffffffe, Exit number **29**. Total exits=**2**
 
-    2: **Triple fault**. The logical processor encountered an exception while attempting to call the double-fault handler and
-that exception did not itself cause a VM exit due to the exception bitmap.
+    **29: MOV DR**. Guest software attempted a MOV to or from a debug register and the “MOV-DR exiting” VM-execution control was 1.
 
-    
-    
+```md
+[ 2850.258822] 0x4ffffffe, Exit number 48. Total exits=701051 <- Most frequent
+[ 2850.258456] 0x4ffffffe, Exit number 30. Total exits=167017
+[ 2850.258416] 0x4ffffffe, Exit number 28. Total exits=107108
+[ 2850.258046] 0x4ffffffe, Exit number 10. Total exits=104368
+[ 2850.258497] 0x4ffffffe, Exit number 32. Total exits=76189
+[ 2850.257866] 0x4ffffffe, Exit number 1.  Total exits=60554
+[ 2850.258843] 0x4ffffffe, Exit number 49. Total exits=30591
+[ 2850.257831] 0x4ffffffe, Exit number 0.  Total exits=27399
+[ 2850.258093] 0x4ffffffe, Exit number 12. Total exits=25009
+[ 2850.257984] 0x4ffffffe, Exit number 7.  Total exits=14878
+[ 2850.258659] 0x4ffffffe, Exit number 40. Total exits=3514
+[ 2850.258477] 0x4ffffffe, Exit number 31. Total exits=729
+[ 2850.258908] 0x4ffffffe, Exit number 54. Total exits=9
+[ 2850.258215] 0x4ffffffe, Exit number 18. Total exits=7
+[ 2850.258926] 0x4ffffffe, Exit number 55. Total exits=3
+[ 2850.258436] 0x4ffffffe, Exit number 29. Total exits=2      <- Least frequent
+[ 2850.257888] 0x4ffffffe, Exit number 2.  Total exits=0
+[ 2850.258005] 0x4ffffffe, Exit number 8.  Total exits=0
+[ 2850.258026] 0x4ffffffe, Exit number 9.  Total exits=0
+```
 
 ## Unlicense
 
