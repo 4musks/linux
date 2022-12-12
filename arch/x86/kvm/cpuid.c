@@ -29,8 +29,14 @@
 u32 total_exits = 0;
 EXPORT_SYMBOL(total_exits);
 
+s64 count_each_exit_reason[70];
+EXPORT_SYMBOL(count_each_exit_reason);
+
 u64 total_proc_cycles = 0;
 EXPORT_SYMBOL(total_proc_cycles);
+
+u64 count_eachexit_proc_cycles[70];
+EXPORT_SYMBOL(count_eachexit_proc_cycles);
 
 /*
  * Unlike "struct cpuinfo_x86.x86_capability", kvm_cpu_caps doesn't need to be
@@ -1502,6 +1508,7 @@ EXPORT_SYMBOL_GPL(kvm_cpuid);
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
+	u64 eachexit_proc_cycles;
 
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
@@ -1512,6 +1519,9 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 	if (eax == 0x4ffffffc) {
 		eax = total_exits;
 		printk(KERN_INFO "0x4ffffffc Total exits = %d\n", total_exits);
+		ebx = 0;
+		ecx = 0;
+		edx = 0;
 	}
 	else if (eax == 0x4ffffffd) {
 		printk(KERN_INFO "0x4ffffffd Total time in vmm = %llu\n", total_proc_cycles);
@@ -1519,11 +1529,61 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 		/*
 		 * Split total cycles as lower and higher 32-bit registers
 		 */
+		eax = 0;
 		ebx = (total_proc_cycles >> 32);
 		ecx = (total_proc_cycles & 0xffffffff);
 		edx = 0;
 	} 
-	
+	else if ( (eax == 0x4ffffffe) || 
+			  (eax == 0x4fffffff) ) {		
+		/*
+		 * If %ecx (on input) contains a value not defined by the SDM,
+		 * return 0 in all %eax, %ebx, %ecx registers 
+		 * and return 0xFFFFFFFF in %edx
+		 * SDM version April 2022 has 0-69 except 35,38 & 42
+		 */
+		if (ecx < 0 || ecx > 69 || 
+			ecx == 35 || 
+			ecx == 38 || 
+			ecx == 42 ) {			
+			printk(KERN_INFO "0x4ffffffe/f ecx contains an exit_type(%u) not defined in SDM\n", ecx);
+			eax = 0;
+			ebx = 0;
+			ecx = 0;
+			edx = 0xffffffff;
+		}
+		/*
+		 * If %ecx (on input) contains a value not enabled in KVM,
+		 * return 0s in all four registers.
+		 */
+		else if (count_each_exit_reason[ecx] < 0 ) {			
+			printk(KERN_INFO "0x4ffffffe/f ecx contains an exit_type(%u) not enabled by KVM\n", ecx);
+			eax = 0;
+			ebx = 0;
+			ecx = 0;
+			edx = 0;
+		}
+			else if (eax == 0x4ffffffe){
+				printk(KERN_INFO "0x4ffffffe, Exit number %u. Total exits=%lld\n", 
+						ecx, count_each_exit_reason[ecx]);
+						eax = count_each_exit_reason[ecx];
+						ebx = 0;
+						ecx = 0;
+						edx = 0;
+			}
+			else if (eax == 0x4fffffff){
+				eachexit_proc_cycles = count_eachexit_proc_cycles[ecx];
+				printk(KERN_INFO "0x4ffffffe, Exit number %u. Total processor cycles=%llu\n", 
+						ecx, eachexit_proc_cycles);
+						/*
+						 * Split total cycles as lower and higher 32-bit registers
+						 */						
+						eax = 0;
+						ebx = (eachexit_proc_cycles >> 32);
+						ecx = (eachexit_proc_cycles & 0xffffffff);
+						edx = 0;
+			}
+	}	
 	else {
 		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	}

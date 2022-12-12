@@ -71,7 +71,9 @@ MODULE_AUTHOR("Qumranet");
 MODULE_LICENSE("GPL");
 
 extern u32 total_exits;
+extern s64 count_each_exit_reason[70];
 extern u64 total_proc_cycles;
+extern u64 count_eachexit_proc_cycles[70];
 
 #ifdef MODULE
 static const struct x86_cpu_id vmx_cpu_id[] = {
@@ -6285,15 +6287,6 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
  */
 static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
-	/* Assignment 2
-	 * LeafNode 0x4ffffffd
-	 * rdtsc - returns processor’s time-stamp counter.
-	 * Within the boundaries of this fn, compute diff in proc cycles and add it
-	 * to a global variable total_proc_cycles
-	 */ 
-	
-	u64 enter_rdtsc = rdtsc();
-	
 	struct vcpu_vmx *vmx = to_vmx(vcpu);
 	union vmx_exit_reason exit_reason = vmx->exit_reason;
 	u32 vectoring_info = vmx->idt_vectoring_info;
@@ -6301,6 +6294,12 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	
 	// Assignment 2
 	total_exits++;
+	
+	// Assignment 3 
+	// For exit reasons not enabled in KVM, set the index value as -1
+	if (exit_reason.basic < 70 ||
+		!(count_each_exit_reason[exit_reason.basic] < 0 ))
+	count_each_exit_reason[exit_reason.basic]++;
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
@@ -6459,14 +6458,14 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	if (!kvm_vmx_exit_handlers[exit_handler_index])
 		goto unexpected_vmexit;
 
-/*
- * Time spent in each exit_handler call is cumulated 
- */
-	total_proc_cycles = total_proc_cycles + (rdtsc() - enter_rdtsc);
-
 	return kvm_vmx_exit_handlers[exit_handler_index](vcpu);
-
 unexpected_vmexit:
+	/*
+	 * Set array index of count_each_exit_reason that are not 
+	 * enabled in KVM as -1
+	 */
+	if (exit_reason.basic < 70 )
+	count_each_exit_reason[exit_reason.basic] = -1;
 	vcpu_unimpl(vcpu, "vmx: unexpected exit reason 0x%x\n",
 		    exit_reason.full);
 	dump_vmcs(vcpu);
@@ -6481,7 +6480,31 @@ unexpected_vmexit:
 
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
+	/* Assignment 2
+	 * LeafNode 0x4ffffffd
+	 * rdtsc - returns processor’s time-stamp counter.
+	 * Within the boundaries of this fn, compute diff in proc cycles and add it
+	 * to a global variable total_proc_cycles
+	 */ 
+	u16 exit_reason_basic;
+	u64 enter_rdtsc = rdtsc();
+	
 	int ret = __vmx_handle_exit(vcpu, exit_fastpath);
+
+	/*
+	* Time spent in each exit_handler call is cumulated 
+	*/
+	total_proc_cycles = total_proc_cycles + (rdtsc() - enter_rdtsc);
+	
+	/*
+	* Time spent for each exit_handler stored separately
+	*/	
+	exit_reason_basic = (u16)to_vmx(vcpu)->exit_reason.basic;
+	if(exit_reason_basic < 70) {
+	count_eachexit_proc_cycles[exit_reason_basic] = 
+			count_eachexit_proc_cycles[exit_reason_basic] +
+			(rdtsc() - enter_rdtsc);			
+	}
 
 	/*
 	 * Exit to user space when bus lock detected to inform that there is
