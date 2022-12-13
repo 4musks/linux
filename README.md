@@ -246,6 +246,7 @@ the EPT paging structures.
     **29: MOV DR**. Guest software attempted a MOV to or from a debug register and the “MOV-DR exiting” VM-execution control was 1.
 
 ```md
+[SORTED]
 [ 2850.258822] 0x4ffffffe, Exit number 48. Total exits=701051 <- Most frequent
 [ 2850.258456] 0x4ffffffe, Exit number 30. Total exits=167017
 [ 2850.258416] 0x4ffffffe, Exit number 28. Total exits=107108
